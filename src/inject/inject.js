@@ -18,30 +18,43 @@ chrome.extension.sendMessage({}, function(response) {
       observer.observe(document, config);
 
       var handleMutationEvents = function handleMutationEvents(mutation) {
-        Array.prototype.forEach.call(mutation.addedNodes, styleLabelsInNode);
-        styleLabelsInNode(mutation.target);
-      }
+        Array.prototype.forEach.call(mutation.addedNodes, styleNode);
+        styleNode(mutation.target);
+      };
 
-      var styleLabelsInNode = function styleLabelsInNode(node) {
+      var styleNode = function styleNode(node) {
         if (nodeIsElement(node)) {
-          styleLabels(findLabelsInNode(node));
+          styleLabels(findInNode('a.label.epic', node));
+          styleEpicPreviews(findInNode('span.epic_name', node));
         }
-      }
+      };
+
+      var styleEpicPreviews = function styleEpicPreviews(epics){
+        Array.prototype.forEach.call(epics, function(epic) {
+          if(epic.parentElement.querySelectorAll('button').length === 0){
+            var button = document.createElement("button");
+            button.style.width = '1.5em';
+            button.style.height = '1.5em';
+            button.style.marginLeft = '1em';
+            button.style.backgroundColor = getColorForLabel(epic.textContent);
+            epic.parentElement.appendChild(button);
+          }
+        });
+
+      };
 
       var nodeIsElement = function nodeIsElement(node) {
         return (typeof node.querySelectorAll !== 'undefined');
-      }
+      };
 
-      var findLabelsInNode = function findLabelsInNode(node) {
-        return node.querySelectorAll('a.label');
-      }
+      var findInNode = function findInNode(selector, node) {
+        return node.querySelectorAll(selector);
+      };
 
       var styleLabels = function styleLabels(labels) {
         Array.prototype.forEach.call(labels, function(label) {
-          if (label.classList.contains('epic')){
-            var labelColor = getColorForLabel(label.textContent);
-            label.style.backgroundColor = labelColor;
-          }
+          var labelColor = getColorForLabel(label.textContent);
+          label.style.backgroundColor = labelColor;
         });
       }
     }
