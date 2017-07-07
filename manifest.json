@@ -13,7 +13,8 @@
   },
   "permissions": [
     "http://www.pivotaltracker.com/*",
-    "https://www.pivotaltracker.com/*"
+    "https://www.pivotaltracker.com/*",
+    "storage"
   ],
   "short_name": "Red Labels",
   "content_scripts": [

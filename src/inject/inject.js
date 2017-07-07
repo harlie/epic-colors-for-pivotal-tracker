@@ -38,9 +38,6 @@ chrome.extension.sendMessage({}, function(response) {
             button.style.marginLeft = '1em';
             var colorForLabel = getColorForLabel(epic.textContent);
             button.style.backgroundColor = colorForLabel;
-            // button.classList.add("jscolor");
-            // button.classList.add("{valueElement:null,value:'" + colorForLabel +"'}");
-            // button.onchange = "updateLabelColor(this.jscolor)";
             var picker = new jscolor(button, {valueElement: null, onFineChange: function(){ updateLabelColor(picker, epic.textContent)}});
             picker.fromString(colorForLabel);
             epic.parentElement.appendChild(button);
@@ -69,24 +66,30 @@ chrome.extension.sendMessage({}, function(response) {
 
 function updateLabelColor(jscolor, text) {
   colorMap[text] = jscolor.toHEXString();
-  localStorage.colorMap = JSON.stringify(colorMap);
+  setColorMap();
 }
 
-var colorMap;
-function getColorForLabel(text) {
-  if(!colorMap){
-    if (localStorage.colorMap){
-      colorMap = JSON.parse(localStorage.colorMap);
-    } else {
-      colorMap = {};
-    }
-  }
 
+function loadColorMap() {
+  chrome.storage.sync.get('colorMap', function(items){
+    colorMap = items.colorMap || {};
+  });
+}
+
+function setColorMap() {
+  chrome.storage.sync.set({'colorMap': colorMap}, function () {
+  });
+}
+
+function getColorForLabel(text) {
   var saniText = text.replace(/,\s*$/,'');
   if (!colorMap[saniText]) {
     colorMap[saniText] = "#" + (Math.random()*0xFFFFFF<<0).toString(16);
-    localStorage.colorMap = JSON.stringify(colorMap);
+    setColorMap();
   }
 
   return colorMap[saniText];
 }
+
+var colorMap;
+loadColorMap();
