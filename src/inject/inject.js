@@ -36,7 +36,13 @@ chrome.extension.sendMessage({}, function(response) {
             button.style.width = '1.5em';
             button.style.height = '1.5em';
             button.style.marginLeft = '1em';
-            button.style.backgroundColor = getColorForLabel(epic.textContent);
+            var colorForLabel = getColorForLabel(epic.textContent);
+            button.style.backgroundColor = colorForLabel;
+            // button.classList.add("jscolor");
+            // button.classList.add("{valueElement:null,value:'" + colorForLabel +"'}");
+            // button.onchange = "updateLabelColor(this.jscolor)";
+            var picker = new jscolor(button, {valueElement: null, onFineChange: function(){ updateLabelColor(picker, epic.textContent)}});
+            picker.fromString(colorForLabel);
             epic.parentElement.appendChild(button);
           }
         });
@@ -61,6 +67,10 @@ chrome.extension.sendMessage({}, function(response) {
   }, 10);
 });
 
+function updateLabelColor(jscolor, text) {
+  colorMap[text] = jscolor.toHEXString();
+  localStorage.colorMap = JSON.stringify(colorMap);
+}
 
 var colorMap;
 function getColorForLabel(text) {
@@ -74,7 +84,7 @@ function getColorForLabel(text) {
 
   var saniText = text.replace(/,\s*$/,'');
   if (!colorMap[saniText]) {
-    colorMap[saniText] = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+    colorMap[saniText] = "#" + (Math.random()*0xFFFFFF<<0).toString(16);
     localStorage.colorMap = JSON.stringify(colorMap);
   }
 

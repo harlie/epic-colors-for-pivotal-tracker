@@ -24,7 +24,8 @@
       ],
       "js": [
         "src/inject/isLabelEligible.js",
-        "src/inject/inject.js"
+        "src/inject/inject.js",
+        "src/jscolor/jscolor.min.js"
       ],
       "css": [
         "css/inject/inject.css"
