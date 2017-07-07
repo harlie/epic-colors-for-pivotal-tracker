@@ -1,10 +1,10 @@
 {
-  "name": "Red Labels for Pivotal Tracker",
-  "version": "1.3.0",
+  "name": "Epic Colors for Pivotal Tracker",
+  "version": "1.0.0",
   "manifest_version": 2,
-  "author": "Mike Kenyon",
-  "description": "Want to see which Pivotal Tracker stories you can work on? Turn any \"blocked\" or \"needs <something>\" stories red so they stand out!",
-  "homepage_url": "https://github.com/mkenyon/red-labels-for-pivotal-tracker",
+  "author": "Timothy Kopp & Harlie Levine & Jim Thomson",
+  "description": "Color coded epic labels in Tracker!",
+  "homepage_url": "https://github.com/harlie/epic-colors-for-pivotal-tracker",
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
@@ -16,7 +16,7 @@
     "https://www.pivotaltracker.com/*",
     "storage"
   ],
-  "short_name": "Red Labels",
+  "short_name": "Epic Colors",
   "content_scripts": [
     {
       "matches": [
