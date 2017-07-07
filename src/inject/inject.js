@@ -38,9 +38,14 @@ chrome.extension.sendMessage({}, function(response) {
             button.style.marginLeft = '1em';
             var colorForLabel = getColorForLabel(epic.textContent);
             button.style.backgroundColor = colorForLabel;
-            var picker = new jscolor(button, {valueElement: null, onFineChange: function(){ updateLabelColor(picker, epic.textContent)}});
-            picker.fromString(colorForLabel);
+            var pickerElement = document.createElement("div");
+            button.onclick = function(){ togglePicker(pickerElement) };
+            pickerElement.style.display = 'none';
+            pickerElement.className = 'color-picker';
+            var picker = ColorPicker(pickerElement, function(hex) { updateLabelColor( hex, epic.textContent, button)});
+            picker.setHex(colorForLabel);
             epic.parentElement.appendChild(button);
+            epic.parentElement.appendChild(pickerElement);
           }
         });
 
@@ -64,9 +69,20 @@ chrome.extension.sendMessage({}, function(response) {
   }, 10);
 });
 
-function updateLabelColor(jscolor, text) {
-  colorMap[text] = jscolor.toHEXString();
+function togglePicker(picker) {
+  if(picker.style.display === 'none') {
+    picker.style.display = 'block';
+  } else {
+    picker.style.display = 'none';
+  }
+}
+function updateLabelColor(hex, text, button) {
+  colorMap[text] = hex;
+  button.style.backgroundColor = hex;
   setColorMap();
+  x = document.createElement("div");
+  document.querySelector('body').appendChild(x);
+  document.querySelector('body').removeChild(x);
 }
 
 

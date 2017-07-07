@@ -6,12 +6,13 @@
   white-space: nowrap;
 }
 
-/*.labels_maker .selected.labels li a.label.blocked,*/
-/*.labels_maker .selected.labels li a.label.blocked + a.remove {*/
-  /*background-color: hsl(245, 69%, 46%);*/
-/*}*/
+.picker { width: 200px; height: 200px }
+.slide { width: 30px; height: 200px }
 
-/*.labels_maker .selected.labels li a.label.blocked:hover,*/
-/*.labels_maker .selected.labels li a.label.blocked + a.remove:hover {*/
-  /*background-color: hsl(245, 69%, 32%);*/
-/*}*/
+.color-picker {
+  position: absolute;
+  background: gray;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 100;
+}
