@@ -38,13 +38,32 @@ chrome.extension.sendMessage({}, function(response) {
 
       var styleLabels = function styleLabels(labels) {
         Array.prototype.forEach.call(labels, function(label) {
-          if (isLabelEligible(label.textContent)) {
-            label.classList.add('blocked');
-          } else {
-            label.classList.remove('blocked');
+          if (label.classList.contains('epic')){
+            var labelColor = getColorForLabel(label.textContent);
+            label.style.backgroundColor = labelColor;
           }
         });
       }
     }
   }, 10);
 });
+
+
+var colorMap;
+function getColorForLabel(text) {
+  if(!colorMap){
+    if (localStorage.colorMap){
+      colorMap = JSON.parse(localStorage.colorMap);
+    } else {
+      colorMap = {};
+    }
+  }
+
+  var saniText = text.replace(/,\s*$/,'');
+  if (!colorMap[saniText]) {
+    colorMap[saniText] = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+    localStorage.colorMap = JSON.stringify(colorMap);
+  }
+
+  return colorMap[saniText];
+}
